@@ -8,17 +8,29 @@ ENV DEBIAN_FRONTEND noninteractive
 # Updates & packages install
 
 RUN apt-get remove -y -q webmin shellinabox adminer # remove this line if you want to have those applications
-RUN (apt-get update && apt-get upgrade -y -q -o Dpkg::Options::="--force-confold" && apt-get dist-upgrade -y -q -o Dpkg::Options::="--force-confold" && apt-get -y -q autoclean && apt-get -y -q autoremove)
-RUN apt-get install -y -q php5-gd php5-curl php5-sqlite php5-ldap php5-intl php-apc wget cron
 
-ENV HUMHUB_VERSION 1.0.1
-ENV HUMHUB_DIR_NAME humhub-$HUMHUB_VERSION
-ENV HUMHUB_DOWNLOAD_URL http://downloads.sourceforge.net/project/humhub/$HUMHUB_DIR_NAME.tar.gz
+RUN apt-get install wget
+RUN apt-get install git
+
+
+
+
+
+
+
+
+
+
+
+
 
 RUN rm -rf /var/www/*
-RUN wget -q $HUMHUB_DOWNLOAD_URL
-RUN tar -xzf $HUMHUB_DIR_NAME.tar.gz
-RUN mv $HUMHUB_DIR_NAME /var/www/humhub
+
+RUN git clone https://github.com/mriedmann/humhub-docker.git humhub
+RUN git clone https://github.com/aghilas-saidj/composer.git
+
+
+RUN mv humhub /var/www/humhub
 RUN chown www-data:www-data -R /var/www
 
 # MySql config
